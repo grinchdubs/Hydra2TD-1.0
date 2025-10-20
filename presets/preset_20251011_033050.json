@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "name": "preset_20251011_033050",
+  "timestamp": "2025-10-11T03:30:50.921708",
+  "scenes": {
+    "Scene 1": {
+      "code": "osc(4, 0.1, 0.8)\n\t.color(1.04, 0, -1.1)\n\t.rotate(0.30, 0.1)\n\t.pixelate(2, 20)\n\t.modulate(noise(2.5), () => 1.5 * Math.sin(0.08 * {{null6.0}}))\n\t.out()",
+      "active": false
+    },
+    "Scene 2": {
+      "code": "speed={{null6.0}}/100000\nosc(48,-.1,0).thresh([.3,.7].fast(.75),0).color(0,0,1)\n\n.add(\n    osc(28,.1,0).thresh([.3,.7].fast(.75),0).rotate(3.14/4)\n    .color(1,0,0)\n    .modulateScale( osc(64,-.01,0).thresh([.3,.7].fast(.75),0) )\n)\n.diff(\n    osc(28,.1,0).thresh([.3,.7].fast(.5),0).rotate(3.14/2)\n    .color(1,0,1)\n    .modulateScale( osc(64,-.015,0).thresh([.3,.7].fast(.5),0) )\n)\n.modulateRotate( osc(54,-.005,0).thresh([.3,.7].fast(.25),0) )\n.modulateScale( osc(44,-.020,0).thresh([.3,.7].fast(.25),0) )\n.colorama( ()=>Math.sin(time/27)*.01222+9.89)\n.scale(2.122)\n\n.out()",
+      "active": true
+    },
+    "Scene 3": {
+      "code": "osc({{lfo2}}, 0.9, 0.001)\n    .kaleid([3,4,5,7,8,9,10].fast(0.1))\n    .color(0.5, 0.3)\n    .colorama(0.4)\n    .rotate(0.009,()=>Math.sin(time)* -0.001 )\n    .modulateRotate(o0,()=>Math.sin(time) * 0.003)\n    .modulate(o0, 0.9)\n    .scale(0.9)\n    .out()",
+      "active": false
+    }
+  },
+  "lfo_values": {
+    "lfo1": {
+      "frequency": 0.30000001192092896,
+      "amplitude": 4.090000152587891,
+      "offset": -0.54,
+      "phase": 0.5
+    },
+    "lfo2": {
+      "frequency": 0.5,
+      "amplitude": 3.940000057220459,
+      "offset": -0.4000000059604645,
+      "phase": 0.5
+    },
+    "lfo3": {
+      "frequency": 0.27000001072883606,
+      "amplitude": 3.71,
+      "offset": -0.54,
+      "phase": 0.5
+    },
+    "lfo4": {
+      "frequency": 0.6100000143051147,
+      "amplitude": 3.71,
+      "offset": -0.54,
+      "phase": 0.5
+    }
+  },
+  "active_scene": "Scene 2"
+}

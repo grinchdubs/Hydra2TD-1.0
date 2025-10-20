@@ -1,0 +1,14 @@
+# Hydra-TouchDesigner Python Dependencies
+
+# Required packages
+opencv-python>=4.8.0
+numpy>=1.24.0
+requests>=2.31.0
+
+# Optional packages for advanced features
+# Uncomment if using WebRTC video streaming
+# aiohttp>=3.9.0
+# aiortc>=1.6.0
+
+# Optional for AxiDraw direct control (alternative to HTTP server)
+# pyaxidraw>=3.0.0

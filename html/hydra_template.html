@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hydra in TouchDesigner</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/hydra-synth@1.3.20/dist/hydra-synth.js"></script>
+    <script>
+        // Initialize Hydra with audio detection
+        const hydra = new Hydra({
+            detectAudio: true,
+            enableStreamCapture: true
+        });
+
+        // Global data store for TouchDesigner data
+        window.tdData = {
+            chops: {},
+            timestamp: Date.now(),
+            updateCount: 0
+        };
+
+        // Performance monitoring
+        window.tdPerformance = {
+            fps: 60,
+            frameTime: 0,
+            lastUpdate: Date.now(),
+            chopUpdateRate: 0
+        };
+
+        let frameCount = 0;
+        let lastTime = Date.now();
+        let lastChopUpdate = Date.now();
+
+        function updatePerformance() {
+            frameCount++;
+            const now = Date.now();
+            const elapsed = now - lastTime;
+
+            if (elapsed >= 1000) {
+                window.tdPerformance.fps = (frameCount / elapsed) * 1000;
+                window.tdPerformance.frameTime = elapsed / frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
+
+            requestAnimationFrame(updatePerformance);
+        }
+
+        updatePerformance();
+
+        // Update function called from TouchDesigner
+        window.updateFromTD = function(jsonData) {
+            try {
+                const data = JSON.parse(jsonData);
+                window.tdData.chops = data;
+                window.tdData.timestamp = Date.now();
+                window.tdData.updateCount++;
+
+                // Calculate CHOP update rate
+                const now = Date.now();
+                const chopElapsed = now - lastChopUpdate;
+                if (chopElapsed > 0) {
+                    window.tdPerformance.chopUpdateRate = 1000 / chopElapsed;
+                }
+                lastChopUpdate = now;
+            } catch(e) {
+                console.error('Parse error:', e);
+            }
+        };
+
+        // CHOP accessor function for Hydra code
+        // Returns a function that evaluates to the current CHOP value
+        window.chop = function(name, index) {
+            return function() {
+                if (window.tdData.chops[name] && window.tdData.chops[name][index] !== undefined) {
+                    return window.tdData.chops[name][index];
+                }
+                return 0;
+            };
+        };
+
+        // Shorthand LFO accessor
+        window.lfo = function(index) {
+            return chop('lfo' + index, 0);
+        };
+
+        // MIDI accessor
+        window.midi = function(cc) {
+            return chop('midi', cc);
+        };
+
+        // Audio FFT from TD analysis
+        window.audioFFT = function(index) {
+            return chop('audio_spectrum', index);
+        };
+
+        // Execute Hydra code sent from TouchDesigner
+        window.runHydraCode = function(code) {
+            try {
+                eval(code);
+            } catch(e) {
+                console.error('Hydra execution error:', e);
+                console.error('Code:', code);
+            }
+        };
+
+        // Set which output buffer to render
+        window.setOutput = function(index) {
+            try {
+                const buffer = eval('o' + index);
+                render(buffer);
+            } catch(e) {
+                console.error('Output error:', e);
+            }
+        };
+
+        // Get performance metrics (called from TD)
+        window.getPerformance = function() {
+            return JSON.stringify(window.tdPerformance);
+        };
+
+        // Initialize video stream
+        window.registerVideoStream = function(url) {
+            try {
+                s0.initStream(url);
+                console.log('Video stream initialized:', url);
+            } catch(e) {
+                console.error('Stream error:', e);
+            }
+        };
+
+        // Initialize webcam
+        window.initWebcam = function() {
+            try {
+                s0.initCam();
+                console.log('Webcam initialized');
+            } catch(e) {
+                console.error('Webcam error:', e);
+            }
+        };
+
+        // Clear all outputs
+        window.clearAll = function() {
+            solid(0).out(o0);
+            solid(0).out(o1);
+            solid(0).out(o2);
+            solid(0).out(o3);
+        };
+
+        // Default sketch - simple oscillator
+        osc(10, 0.1, 1.4).out();
+
+        console.log('Hydra-TouchDesigner initialized!');
+        console.log('Available functions: chop(), lfo(), midi(), audioFFT()');
+        console.log('TD Data:', window.tdData);
+    </script>
+</body>
+</html>

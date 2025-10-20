@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "name": "default",
+  "timestamp": "2025-10-10T11:38:30.657934",
+  "scenes": {
+    "Scene 1": {
+      "code": "osc(chop('lfo1', 0)() * 20 + 10, 0.1, chop('lfo2', 0)())\n  .rotate(chop('lfo3', 0)() * 3.14, 0.1)\n  .modulate(noise(chop('lfo4', 0)() * 5))\n  .out()",
+      "active": true
+    },
+    "Scene 2": {
+      "code": "noise(chop('lfo1', 0)() * 5, 0.1)\n  .color(\n    chop('lfo2', 0)(),\n    chop('lfo3', 0)(),\n    chop('lfo4', 0)()\n  )\n  .kaleid(4)\n  .out()",
+      "active": false
+    },
+    "Scene 3": {
+      "code": "osc(10, 0.1, 1.4)\n  .rotate(chop('lfo1', 0)(), 0.1)\n  .modulate(o0, chop('lfo2', 0)() * 0.1)\n  .out()",
+      "active": false
+    }
+  },
+  "chop_mappings": [
+    {
+      "path": "/project1/lfo1",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo2",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo3",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo4",
+      "enabled": true,
+      "update_rate": 30
+    }
+  ],
+  "apply_mode": "auto",
+  "active_outputs": [],
+  "parameters": {
+    "frequency": 10.0,
+    "speed": 1.0,
+    "color_r": 0.5,
+    "color_g": 0.5,
+    "color_b": 0.5,
+    "scale": 1.0
+  }
+}

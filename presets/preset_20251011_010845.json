@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "name": "preset_20251011_010845",
+  "timestamp": "2025-10-11T01:08:45.718516",
+  "scenes": {
+    "Scene 1": {
+      "code": "osc({{null5.1}} * 20 + 10, .1, {{lfo2}}).rotate({{lfo3}} * 3.14, 0.1).modulate(noise({{lfo4}} * .5)).out()",
+      "active": true
+    },
+    "Scene 2": {
+      "code": "\nosc(20, 0.01, 1.1)\n\t.kaleid(5)\n\t.color(2.83,0.91,0.39)\n\t.rotate(0, 0.1)\n\t.modulate(o0, () => {{mouse.x}} * 0.0003)\n\t.scale(1.01)\n  \t.out(o0)\n",
+      "active": false
+    },
+    "Scene 3": {
+      "code": "osc({{lfo2}}, 0.9, 0.001)\n    .kaleid([3,4,5,7,8,9,10].fast(0.1))\n    .color(0.5, 0.3)\n    .colorama(0.4)\n    .rotate(0.009,()=>Math.sin(time)* -0.001 )\n    .modulateRotate(o0,()=>Math.sin(time) * 0.003)\n    .modulate(o0, 0.9)\n    .scale(0.9)\n    .out()",
+      "active": false
+    }
+  },
+  "lfo_values": {
+    "lfo1": {
+      "frequency": 2.65,
+      "amplitude": 3.71,
+      "offset": -0.54,
+      "phase": 0.5
+    },
+    "lfo2": {
+      "frequency": 4.8,
+      "amplitude": 9.37,
+      "offset": -2.0,
+      "phase": 0.5
+    },
+    "lfo3": {
+      "frequency": 2.65,
+      "amplitude": 3.71,
+      "offset": -0.54,
+      "phase": 0.5
+    },
+    "lfo4": {
+      "frequency": 2.65,
+      "amplitude": 3.71,
+      "offset": -0.54,
+      "phase": 0.5
+    }
+  },
+  "active_scene": "Scene 1"
+}

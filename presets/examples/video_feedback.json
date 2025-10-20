@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "name": "video_feedback",
+  "timestamp": "2025-10-09T12:00:00",
+  "scenes": {
+    "Scene 1": {
+      "code": "s0.initCam()\nsrc(s0)\n  .modulate(o0, chop('lfo1', 0) * 0.1)\n  .scale(1.01)\n  .rotate(chop('lfo2', 0) * 0.001)\n  .out()",
+      "active": true
+    },
+    "Scene 2": {
+      "code": "s0.initCam()\nsrc(s0)\n  .diff(o0)\n  .modulate(noise(chop('lfo1', 0) * 3))\n  .color(chop('lfo2', 0), chop('lfo3', 0), chop('lfo4', 0))\n  .out()",
+      "active": false
+    },
+    "Scene 3": {
+      "code": "s0.initCam()\nsrc(s0)\n  .kaleid(4)\n  .modulate(o0, 0.05)\n  .blend(o0, chop('lfo1', 0) * 0.5)\n  .out()",
+      "active": false
+    }
+  },
+  "chop_mappings": [
+    {
+      "path": "/project1/lfo1",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo2",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo3",
+      "enabled": true,
+      "update_rate": 30
+    },
+    {
+      "path": "/project1/lfo4",
+      "enabled": true,
+      "update_rate": 30
+    }
+  },
+  "parameters": {
+    "feedback": 0.95,
+    "scale": 1.01,
+    "rotation": 0.001
+  },
+  "active_outputs": [0],
+  "apply_mode": "auto"
+}

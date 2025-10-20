@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "name": "plotting",
+  "timestamp": "2025-10-09T12:00:00",
+  "scenes": {
+    "Scene 1": {
+      "code": "shape(chop('lfo1', 0) * 6 + 3, chop('lfo2', 0), 0.01)\n  .repeat(3, 3)\n  .rotate(chop('lfo3', 0))\n  .invert()\n  .out()",
+      "active": true
+    },
+    "Scene 2": {
+      "code": "voronoi(chop('lfo1', 0) * 10, 0.1, chop('lfo2', 0))\n  .thresh(0.5)\n  .invert()\n  .out()",
+      "active": false
+    },
+    "Scene 3": {
+      "code": "osc(chop('lfo1', 0) * 30 + 10, 0)\n  .thresh(chop('lfo2', 0) * 0.5, 0.01)\n  .invert()\n  .out()",
+      "active": false
+    }
+  },
+  "chop_mappings": [
+    {
+      "path": "/project1/lfo1",
+      "enabled": true,
+      "update_rate": 15
+    },
+    {
+      "path": "/project1/lfo2",
+      "enabled": true,
+      "update_rate": 15
+    },
+    {
+      "path": "/project1/lfo3",
+      "enabled": true,
+      "update_rate": 15
+    }
+  ],
+  "parameters": {
+    "shapes": 4,
+    "repetition": 3,
+    "threshold": 0.5
+  },
+  "active_outputs": [0],
+  "apply_mode": "manual"
+}

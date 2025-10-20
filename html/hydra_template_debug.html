@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hydra Debug</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            width: 100vw !important;
+            height: 100vh !important;
+            image-rendering: pixelated;
+        }
+        #debug {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: lime;
+            font-family: monospace;
+            font-size: 14px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="debug">Loading Hydra...</div>
+    <script src="https://cdn.jsdelivr.net/npm/hydra-synth@1.3.20/dist/hydra-synth.js"></script>
+    <script>
+        console.log("Script started");
+
+        // Debug logging
+        function log(msg) {
+            console.log(msg);
+            const debug = document.getElementById('debug');
+            if (debug) {
+                debug.innerHTML += '<br>' + msg;
+            }
+        }
+
+        try {
+            log("Checking Hydra...");
+
+            if (typeof Hydra === 'undefined') {
+                log("ERROR: Hydra not loaded! Check internet connection.");
+            } else {
+                log("Hydra loaded successfully!");
+
+                // Initialize Hydra
+                log("Initializing Hydra...");
+                const hydra = new Hydra({
+                    detectAudio: false,
+                    enableStreamCapture: false
+                });
+
+                log("Hydra initialized!");
+
+                // Global data store for TouchDesigner data
+                window.tdData = {
+                    chops: {},
+                    timestamp: Date.now(),
+                    updateCount: 0
+                };
+
+                log("TD data structure created");
+
+                // Update function called from TouchDesigner
+                window.updateFromTD = function(jsonData) {
+                    try {
+                        const data = JSON.parse(jsonData);
+                        window.tdData.chops = data;
+                        window.tdData.timestamp = Date.now();
+                        window.tdData.updateCount++;
+                    } catch(e) {
+                        console.error('Parse error:', e);
+                    }
+                };
+
+                // CHOP accessor function
+                window.chop = function(name, index) {
+                    return function() {
+                        if (window.tdData.chops[name] && window.tdData.chops[name][index] !== undefined) {
+                            return window.tdData.chops[name][index];
+                        }
+                        return 0;
+                    };
+                };
+
+                // Shorthand functions
+                window.lfo = function(index) {
+                    return chop('lfo' + index, 0);
+                };
+
+                window.midi = function(cc) {
+                    return chop('midi', cc);
+                };
+
+                window.audioFFT = function(index) {
+                    return chop('audio_spectrum', index);
+                };
+
+                // Execute Hydra code
+                window.runHydraCode = function(code) {
+                    try {
+                        eval(code);
+                        log("Code executed: " + code.substring(0, 30) + "...");
+                    } catch(e) {
+                        console.error('Hydra error:', e);
+                        log("ERROR: " + e.message);
+                    }
+                };
+
+                log("Helper functions created");
+
+                // Test pattern - BRIGHT RED for visibility
+                log("Running test pattern...");
+                solid(1, 0, 0).out();
+
+                setTimeout(() => {
+                    log("Switching to oscillator...");
+                    osc(10, 0.1, 1.4).out();
+                }, 1000);
+
+                log("READY! Check if you see RED then oscillator pattern");
+
+                // Hide debug after 5 seconds
+                setTimeout(() => {
+                    const debug = document.getElementById('debug');
+                    if (debug) debug.style.display = 'none';
+                }, 5000);
+            }
+
+        } catch(error) {
+            log("FATAL ERROR: " + error.message);
+            console.error("Fatal error:", error);
+        }
+    </script>
+</body>
+</html>
