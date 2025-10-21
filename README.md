@@ -92,6 +92,7 @@ The code should auto update after any slider movements.
 - `CTRL+SHIFT+1/2/3` - Switch to scene 1/2/3
 - `CTRL+SHIFT+S` - Save preset
 - `CTRL+SHIFT+L` - Load preset
+- `CTRL+SHIFT+R` - Reload Scene
 
 ### Saving Presets
 Presets include:
