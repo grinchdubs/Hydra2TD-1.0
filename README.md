@@ -39,7 +39,6 @@ See [documentation/HYDRA_PARAMETER_CREATION.md](documentation/HYDRA_PARAMETER_CR
 ## System Requirements
 
 - **TouchDesigner**: 2023.11xxx or newer
-- **Internet**: Required for Hydra CDN
 
 ## Usage
 
