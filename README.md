@@ -170,7 +170,7 @@ The project includes example scenes:
 
 - **Hydra**: https://hydra.ojack.xyz/
 - **TouchDesigner**: https://docs.derivative.ca/
-- **Project Repository**: [Your repository URL]
+- **Project Repository**: https://github.com/grinchdubs/Hydra2TD-1.0
 
 ## License
 
@@ -191,5 +191,5 @@ Special thanks to:
 ---
 
 **Version**: 1.0
-**Last Updated**: 2025-10-20
+**Last Updated**: 2025-10-21
 **Status**: Production Ready
