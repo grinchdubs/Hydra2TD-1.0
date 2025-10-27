@@ -2,6 +2,8 @@
 
 A complete system for running the Hydra live coding environment inside TouchDesigner with full bidirectional data flow, enabling new generative art workflows.
 
+![](https://raw.githubusercontent.com/grinchdubs/grnch.xyz_photos/refs/heads/main/TD_Tools/Screenshot%202025-10-27%20112332.png)
+
 ## Features
 
 ### Core System
